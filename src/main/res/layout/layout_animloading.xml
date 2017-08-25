@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/ll_loading"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/bg_black"
+        >
+
+
+    <com.benmu.widget.view.MaterialCircleView
+            android:layout_width="43dp"
+            android:layout_height="43dp"
+            app:bGradient="false"
+            app:circleColor="#ffffff"
+            android:layout_centerInParent="true"
+            />
+    <!-- 43dp android:indeterminateDrawable="@anim/loading_anim"-->
+
+</RelativeLayout>

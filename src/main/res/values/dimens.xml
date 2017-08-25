@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="statusbarheight">40</integer>
+    <dimen name="size_12">12dp</dimen>
+    <dimen name="size_13">13dp</dimen>
+    <dimen name="size_15">15dp</dimen>
+    <dimen name="size_18">18dp</dimen>
+</resources>
