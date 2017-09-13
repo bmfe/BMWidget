@@ -1,7 +1,9 @@
 package com.benmu.widget.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,8 @@ import android.widget.TextView;
 
 import com.benmu.widget.R;
 import com.benmu.widget.utils.ColorUtils;
+
+import org.w3c.dom.Text;
 
 
 /**
@@ -46,6 +50,25 @@ public class BaseToolBar extends LinearLayout {
         this.mContext = context;
         initView();
         initListenner();
+    }
+
+    /**
+     * set nav test color
+     */
+    public void setNavigationItemColor(String color, View view) {
+        if (view == null || TextUtils.isEmpty(color)) return;
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            int childCount = viewGroup.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                View childView = viewGroup.getChildAt(i);
+                if (childView instanceof ViewGroup) {
+                    setNavigationItemColor(color, childView);
+                } else if (childView instanceof TextView) {
+                    ((TextView) childView).setTextColor(Color.parseColor(color));
+                }
+            }
+        }
     }
 
     private void initListenner() {
