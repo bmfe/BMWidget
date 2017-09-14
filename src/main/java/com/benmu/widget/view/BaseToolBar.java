@@ -160,6 +160,22 @@ public class BaseToolBar extends LinearLayout {
         return mWebViewClosed;
     }
 
+    public ImageView getLeftIcon() {
+        return mLeftIcon;
+    }
+
+    public TextView getRightText() {
+        return mRightText;
+    }
+
+    public ImageView getRightIcon() {
+        return mRightIcon;
+    }
+
+    public TextView getTitleTextView() {
+        return mTitle;
+    }
+
     public void setLeftTextColor(String color) {
         if (mWebViewClosed != null) {
             mWebViewClosed.setTextColor(ColorUtils.getColor(color));

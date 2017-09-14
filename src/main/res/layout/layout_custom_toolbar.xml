@@ -19,8 +19,8 @@
 
         <ImageView
                 android:id="@+id/toolbar_left_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_centerVertical="true"
                 android:clickable="true"
                 android:layout_marginRight="5dp"
@@ -51,18 +51,19 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             >
-    <com.benmu.widget.view.BMReceiverTextView
-            android:id="@+id/toolbar_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#ffffffff"
-            android:lines="1"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:layout_centerInParent="true"
-            android:textSize="@dimen/size_18"
-            android:textStyle="bold"
-            />
+
+        <com.benmu.widget.view.BMReceiverTextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#ffffffff"
+                android:lines="1"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:layout_centerInParent="true"
+                android:textSize="@dimen/size_18"
+                android:textStyle="bold"
+                />
     </RelativeLayout>
 
 
@@ -88,8 +89,8 @@
 
         <ImageView
                 android:id="@+id/toolbar_right_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:clickable="true"
                 android:layout_toRightOf="@+id/toolbar_right_text"
                 android:layout_marginLeft="6dp"
