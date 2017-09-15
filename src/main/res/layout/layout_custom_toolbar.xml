@@ -37,7 +37,7 @@
                 android:clickable="true"
                 android:layout_toRightOf="@+id/toolbar_left_icon"
                 android:textColor="#ffffffff"
-                android:textSize="@dimen/size_18"
+                android:textSize="@dimen/size_15"
                 android:visibility="gone"
                 android:textStyle="bold"
                 />
@@ -61,7 +61,7 @@
                 android:ellipsize="end"
                 android:gravity="center"
                 android:layout_centerInParent="true"
-                android:textSize="@dimen/size_18"
+                android:textSize="@dimen/size_16"
                 android:textStyle="bold"
                 />
     </RelativeLayout>
@@ -81,7 +81,7 @@
                 android:clickable="true"
                 android:gravity="center"
                 android:textColor="#ffffffff"
-                android:textSize="@dimen/size_18"
+                android:textSize="@dimen/size_15"
                 android:visibility="gone"
                 android:layout_centerVertical="true"
                 android:textStyle="bold"
