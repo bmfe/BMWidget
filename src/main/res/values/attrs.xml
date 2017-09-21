@@ -23,4 +23,15 @@
     <declare-styleable name="MaxScrollViewStyle">
         <attr name="maxHeight" format="dimension"></attr>
     </declare-styleable>
+
+    <declare-styleable name="SVCircleProgressBar">
+        <attr name="roundColor" format="color"/>
+        <attr name="roundProgressColor" format="color"/>
+        <attr name="roundWidth" format="dimension"></attr>
+        <attr name="max" format="integer"></attr>
+        <attr name="style">
+            <enum name="STROKE" value="0"></enum>
+            <enum name="FILL" value="1"></enum>
+        </attr>
+    </declare-styleable>
 </resources>

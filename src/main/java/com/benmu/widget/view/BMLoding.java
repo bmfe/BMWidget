@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.benmu.widget.R;
 
@@ -12,11 +13,12 @@ import com.benmu.widget.R;
  * Created by Carry on 17/2/8.
  */
 
-public class BMLoding extends Dialog{
+public class BMLoding extends Dialog {
 
     boolean isCenter = false;
     boolean canWatchOutsideTouch = true;
     boolean dimBehindEnabled = false;
+    private TextView tv_message;
 
     /**
      * 设置dialog是否可以响应下面activity的事件
@@ -35,7 +37,6 @@ public class BMLoding extends Dialog{
     /**
      * 设置dialog背景是不是变灰。默认是不变灰的
      *
-     * @param dimBehindEnabled
      * @method: setDimBehindEnabled
      * @description: TODO
      * @author: DongFuhai
@@ -57,7 +58,7 @@ public class BMLoding extends Dialog{
     }
 
     private BMLoding(Context context, boolean cancelable,
-                              OnCancelListener cancelListener) {
+                     OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
     }
 
@@ -78,6 +79,7 @@ public class BMLoding extends Dialog{
         }
 
         setContentView(R.layout.layout_animloading);
+        tv_message = (TextView) findViewById(R.id.tv_message);
         setCanceledOnTouchOutside(false);
     }
 
@@ -108,6 +110,12 @@ public class BMLoding extends Dialog{
         // if(!isCenter)
         // params.y = -200;
         // getWindow().setAttributes(params);
+    }
+
+    public void setMessage(String message) {
+        if (this.tv_message != null) {
+            tv_message.setText(message);
+        }
     }
 
 }
