@@ -330,7 +330,7 @@ public class BMAlert extends Dialog {
                 // if no confirm button just set the visibility to GONE
                 sbtn_n.setVisibility(View.GONE);
                 sbtn_p.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams
-                        .FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                        .FILL_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             }
 
             // set the content message
