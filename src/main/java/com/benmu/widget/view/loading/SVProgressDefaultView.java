@@ -1,6 +1,7 @@
 package com.benmu.widget.view.loading;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -13,8 +14,7 @@ import android.widget.TextView;
 import com.benmu.widget.R;
 
 /**
- * Created by Sai on 15/8/15.
- * 默认的SVProgress效果
+ * Created by Sai on 15/8/15. 默认的SVProgress效果
  */
 public class SVProgressDefaultView extends LinearLayout {
     private int resBigLoading = R.drawable.ic_svstatus_loading;
@@ -62,7 +62,7 @@ public class SVProgressDefaultView extends LinearLayout {
     }
 
     public void showWithStatus(String string) {
-        if (string == null) {
+        if (TextUtils.isEmpty(string)) {
             show();
             return;
         }
@@ -82,6 +82,7 @@ public class SVProgressDefaultView extends LinearLayout {
     public void showErrorWithStatus(String string) {
         showBaseStatus(resError, string);
     }
+
     public void showWithProgress(String string) {
         showProgress(string);
     }
@@ -90,7 +91,7 @@ public class SVProgressDefaultView extends LinearLayout {
         return circleProgressBar;
     }
 
-    public void setText(String string){
+    public void setText(String string) {
         tvMsg.setText(string);
     }
 
