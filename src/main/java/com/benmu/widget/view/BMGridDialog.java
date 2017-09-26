@@ -179,7 +179,7 @@ public class BMGridDialog {
     }
 
 
-    private void hide() {
+    public void hide() {
         if (mDialog != null && mDialog.isShowing()) {
             mDialog.dismiss();
         }
