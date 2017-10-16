@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.benmu.widget.R;
+import com.benmu.widget.utils.BaseCommonUtil;
 import com.benmu.widget.utils.ColorUtils;
 
 import org.w3c.dom.Text;
@@ -65,7 +66,7 @@ public class BaseToolBar extends LinearLayout {
                 if (childView instanceof ViewGroup) {
                     setNavigationItemColor(color, childView);
                 } else if (childView instanceof TextView) {
-                    ((TextView) childView).setTextColor(Color.parseColor(color));
+                    ((TextView) childView).setTextColor(ColorUtils.getColor(color));
                 }
             }
         }
