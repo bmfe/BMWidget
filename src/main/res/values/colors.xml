@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="c_3f51b5">#3F51B5</color>
+    <color name="c_303F9F">#303F9F</color>
+    <color name="c_FF4081">#FF4081</color>
+    <color name="c_66000000">#66000000</color>
+    <color name="c_f2f2f2">#f2f2f2</color>
+    <color name="c_e6e6e6">#e6e6e6</color>
+    <color name="c_46c4dd">#46c4dd</color>
+    <color name="c_ffff0c15">#ffff0c15</color>
+    <color name="c_ff333333">#ff333333</color>
+    <color name="c_ffdddddd">#FFdddddd</color>
+    <color name="c_b0000000">#b0000000</color>
+    <color name="c_e0e0e0">#e0e0e0</color>
+    <color name="c_16d4b8">#16d4b8</color>
+    <color name="c_ffffffff">#ffffffff</color>
+    <color name="c_dddddd">#dddddd</color>
+    <color name="c_00000000">#00000000</color>
+    <color name="c_ffffff">#ffffff</color>
+    <color name="c_60000000">#60000000</color>
+    <color name="c_c0ffff00">#c0ffff00</color>
+    <color name="c_666666">#666666</color>
+    <color name="c_04b0ed">#04b0ed</color>
+    <color name="c_b2b2b2">#b2b2b2</color>
+    <color name="c_999999">#999999</color>
+    <color name="c_cccccc">#cccccc</color>
+    <color name="c_d9d9d9">#d9d9d9</color>
+    <color name="c_45c4dd">#45c4dd</color>
+    <color name="c_FF9900">#FF9900</color>
+    <color name="c_6633B5E5">#6633B5E5</color>
+    <color name="c_00d5b8">#00d5b8</color>
+    <color name="c_f38893">#f38893</color>
+    <color name="c_808080">#808080</color>
+    <color name="c_4c4c4c">#4c4c4c</color>
+    <color name="c_f5f5f5">#f5f5f5</color>
+    <color name="c_fafafc">#fafafc</color>
+    <color name="c_d2d3d9">#d2d3d9</color>
+    <color name="c_8a8a99">#8a8a99</color>
+    <color name="c_00b4cb">#00b4cb</color>
+    <color name="c_eff3f4">#eff3f4</color>
+    <color name="c_777">#777777</color>
+    <color name="c_fafafa">#fafafa</color>
+
+    <!--覆盖颜色-->
+    <color name="bgColor_overlay">#60000000</color>
+    <color name="bgColor_overlay_black">#95000000</color>
+    <!--窗口背景颜色-->
+    <color name="bgColor_svprogressdefaultview">@android:color/white</color>
+    <!--标题颜色-->
+    <color name="textColor_svprogresshuddefault_msg">#000000</color>
+    <color name="roundColor_svprogresshuddefault">#e5e5e5</color>
+    <color name="roundProgressColor_svprogresshuddefault">@android:color/black</color>
+</resources>
