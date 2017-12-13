@@ -6,6 +6,7 @@
     <dimen name="size_15">15dp</dimen>
     <dimen name="size_18">18dp</dimen>
     <dimen name="size_16">16dp</dimen>
+    <dimen name="dimen75">75dp</dimen>
 
     <!--padding-->
     <dimen name="padding_svprogresshuddefault">15dp</dimen>
