@@ -2,6 +2,7 @@ package com.benmu.widget.view.loading;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +49,12 @@ public class LoadingDialog {
     }
 
     public void setTipText(String msg) {
-        tipTextView.setText(msg);
+        if(TextUtils.isEmpty(msg)){
+            tipTextView.setVisibility(View.GONE);
+        }else {
+            tipTextView.setVisibility(View.VISIBLE);
+            tipTextView.setText(msg);
+        }
     }
 
     public void show() {
