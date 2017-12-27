@@ -7,8 +7,13 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.os.Build;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -252,6 +257,25 @@ public class BaseCommonUtil {
         if (object == null) {
             throw e;
         }
+    }
+
+
+    /**
+     * bitmap着色
+     * @param inBitmap
+     * @param tintColor
+     * @return
+     */
+    public static Bitmap tintBitmap(Bitmap inBitmap , int tintColor) {
+        if (inBitmap == null) {
+            return null;
+        }
+        Bitmap outBitmap = Bitmap.createBitmap (inBitmap.getWidth(), inBitmap.getHeight() , inBitmap.getConfig());
+        Canvas canvas = new Canvas(outBitmap);
+        Paint paint = new Paint();
+        paint.setColorFilter( new PorterDuffColorFilter(tintColor, PorterDuff.Mode.SRC_IN)) ;
+        canvas.drawBitmap(inBitmap , 0, 0, paint) ;
+        return outBitmap ;
     }
 
 }

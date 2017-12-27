@@ -1,10 +1,14 @@
 package com.benmu.widget.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -67,6 +71,16 @@ public class BaseToolBar extends LinearLayout {
                     setNavigationItemColor(color, childView);
                 } else if (childView instanceof TextView) {
                     ((TextView) childView).setTextColor(ColorUtils.getColor(color));
+                }else if(childView instanceof ImageView){
+                    ImageView imageItem=(ImageView)childView;
+                    Drawable drawable = imageItem.getDrawable();
+                    if(drawable instanceof BitmapDrawable){
+                        BitmapDrawable drawable1 = (BitmapDrawable) drawable;
+                        Bitmap bitmap = drawable1.getBitmap();
+                        Bitmap bitmap1 = BaseCommonUtil.tintBitmap(bitmap, ColorUtils.getColor
+                                (color));
+                        imageItem.setImageBitmap(bitmap1);
+                    }
                 }
             }
         }

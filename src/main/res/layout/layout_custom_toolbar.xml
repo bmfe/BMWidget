@@ -74,33 +74,42 @@
             android:layout_height="match_parent"
             >
 
-        <com.benmu.widget.view.BMReceiverTextView
-                android:id="@+id/toolbar_right_text"
+        <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                android:gravity="center"
-                android:textColor="#ffffffff"
-                android:textSize="@dimen/size_15"
-                android:visibility="gone"
-                android:layout_centerVertical="true"
-                android:textStyle="bold"
-                />
-
-        <ImageView
-                android:id="@+id/toolbar_right_icon"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:clickable="true"
-                android:layout_toRightOf="@+id/toolbar_right_text"
-                android:layout_marginLeft="6dp"
-                android:visibility="gone"
+                android:orientation="horizontal"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:padding="5dp"
-                android:scaleType="fitCenter"
-                />
+                >
 
+            <com.benmu.widget.view.BMReceiverTextView
+                    android:id="@+id/toolbar_right_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:textColor="#ffffffff"
+                    android:textSize="@dimen/size_15"
+                    android:layout_centerVertical="true"
+                    android:textStyle="bold"
+                    android:layout_marginRight="6dp"
+                    android:visibility="gone"
+                    />
+
+            <ImageView
+                    android:id="@+id/toolbar_right_icon"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:clickable="true"
+                    android:layout_marginLeft="6dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:padding="5dp"
+                    android:scaleType="fitCenter"
+                    android:layout_marginRight="6dp"
+                    android:visibility="gone"
+                    />
+        </LinearLayout>
     </RelativeLayout>
 
 </LinearLayout>
