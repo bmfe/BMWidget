@@ -5,8 +5,8 @@
               android:id="@+id/toolbar_container"
               android:background="#00b4cb"
               android:orientation="horizontal"
-              android:paddingLeft="10dp"
-              android:paddingRight="10dp"
+              android:paddingLeft="15dp"
+              android:paddingRight="15dp"
         >
 
 
@@ -82,6 +82,7 @@
                 android:gravity="center"
                 android:textColor="#ffffffff"
                 android:textSize="@dimen/size_15"
+                android:layout_alignParentRight="true"
                 android:visibility="gone"
                 android:layout_centerVertical="true"
                 android:textStyle="bold"

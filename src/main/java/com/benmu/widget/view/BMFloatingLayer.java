@@ -131,7 +131,7 @@ public class BMFloatingLayer {
                         float upY = motionEvent.getRawY();
                         BigDecimal now = BigDecimal.valueOf(System.currentTimeMillis());
                         if (!isMove && (Math.abs(now.subtract(mStartClickTime).floatValue()) <
-                                500) && ((upX - mDownX) < 20 && (upY - mDownY) < 20)) {
+                                500) && (Math.abs(upX - mDownX) < 20 && Math.abs(upY - mDownY) < 20)) {
                             if (null != mListener) {
                                 mListener.onClick();
                                 return false;
