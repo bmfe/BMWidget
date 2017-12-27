@@ -43,25 +43,27 @@ public class LoadingDialog {
         window.setGravity(Gravity.CENTER);
         window.setAttributes(lp);
         window.setWindowAnimations(R.style.PopWindowAnimStyle);
-        loadingDialog.show();
 
         return loadingDialog;
     }
 
     public void setTipText(String msg) {
-        if(TextUtils.isEmpty(msg)){
+        if (TextUtils.isEmpty(msg)) {
             tipTextView.setVisibility(View.GONE);
-        }else {
+        } else {
             tipTextView.setVisibility(View.VISIBLE);
             tipTextView.setText(msg);
         }
     }
 
     public void show() {
+        if (loadingDialog.isShowing()) return;
         loadingDialog.show();
     }
 
     public void dismiss() {
-        loadingDialog.dismiss();
+        if (loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
+        }
     }
 }
