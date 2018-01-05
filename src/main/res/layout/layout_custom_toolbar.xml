@@ -39,7 +39,6 @@
                 android:textColor="#ffffffff"
                 android:textSize="@dimen/size_15"
                 android:visibility="gone"
-                android:textStyle="bold"
                 />
     </RelativeLayout>
 
@@ -62,7 +61,6 @@
                 android:gravity="center"
                 android:layout_centerInParent="true"
                 android:textSize="@dimen/size_16"
-                android:textStyle="bold"
                 />
     </RelativeLayout>
 
@@ -87,11 +85,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="true"
+                    android:layout_gravity="center"
                     android:gravity="center"
                     android:textColor="#ffffffff"
                     android:textSize="@dimen/size_15"
                     android:layout_centerVertical="true"
-                    android:textStyle="bold"
                     android:layout_marginRight="6dp"
                     android:visibility="gone"
                     />

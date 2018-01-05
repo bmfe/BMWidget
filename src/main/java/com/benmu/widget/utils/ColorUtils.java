@@ -1,19 +1,82 @@
 package com.benmu.widget.utils;
 
 import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
+import android.util.Pair;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 /**
  * 前端颜色设置集合
  */
 public class ColorUtils {
     private final static Map<String, Integer> colorMap = new HashMap<>();
+    private final static int RGB_SIZE = 3;
+    private final static int RGBA_SIZE = 4;
+    private final static int HEX = 16;
+    private final static int COLOR_RANGE = 255;
+    private final static String RGB = "rgb";
+    private final static String RGBA = "rgba";
+    public static final char PERCENT = '%';
+    private static final int HUNDRED =100;
 
-    /**
-     * 支持前端Color 常量集合
-     */
+    private final static SingleFunctionParser.FlatMapper<Integer> FUNCTIONAL_RGB_MAPPER =
+            new SingleFunctionParser.FlatMapper<Integer>() {
+                @Override
+                public Integer map(String raw) {
+                    int color = parseUnitOrPercent(raw, COLOR_RANGE);
+                    if (color < 0) {
+                        color = 0;
+                    } else if (color > COLOR_RANGE) {
+                        color = COLOR_RANGE;
+                    }
+                    return color;
+                }
+            };
+
+    private final static SingleFunctionParser.NonUniformMapper<Number> FUNCTIONAL_RGBA_MAPPER =
+            new SingleFunctionParser.NonUniformMapper<Number>() {
+                @Override
+                public List<Number> map(List<String> raw) {
+                    List<Number> result = new ArrayList<>(RGBA_SIZE);
+                    int i, color;
+                    for (i = 0; i < RGB_SIZE; i++) {
+                        color = parseUnitOrPercent(raw.get(i), COLOR_RANGE);
+                        if (color < 0) {
+                            color = 0;
+                        } else if (color > COLOR_RANGE) {
+                            color = COLOR_RANGE;
+                        }
+                        result.add(color);
+                    }
+                    result.add(Float.valueOf(raw.get(i)));
+                    return result;
+                }
+            };
+
+
+    public static int parseUnitOrPercent(String raw, int unit) {
+        int suffix;
+        if ((suffix = raw.lastIndexOf(PERCENT)) != -1) {
+            return parsePercent(raw.substring(0, suffix), unit);
+        }
+        else {
+            return Integer.parseInt(raw);
+        }
+    }
+
+
+    private static int parsePercent(String raw, int unit){
+        return (int)(Float.parseFloat(raw) / HUNDRED * unit);
+    }
+
     static {
         colorMap.put("aliceblue", 0XFFF0F8FF);
         colorMap.put("antiquewhite", 0XFFFAEBD7);
@@ -165,19 +228,216 @@ public class ColorUtils {
         colorMap.put("transparent", 0x00000000);
     }
 
+    public static int getColor(String color) {
+        return getColor(color, Integer.MIN_VALUE);
+    }
 
-    public static int getColor(String rawColor) {
-        if (rawColor.length() == 4 && rawColor.contains("#")) {//Color 简写处理
-            //#eee, #333
-            int r, g, b;
-            r = Integer.parseInt(rawColor.substring(1, 2), 16);
-            g = Integer.parseInt(rawColor.substring(2, 3), 16);
-            b = Integer.parseInt(rawColor.substring(3, 4), 16);
-            return Color.rgb(r + (r << 4), g + (g << 4), b + (b << 4));
-        } else if (!rawColor.contains("#")) {//寻找Color 常量
-            return colorMap.get(rawColor);
-        } else {
-            return Color.parseColor(rawColor);
+    public static int getColor(String color, int defaultColor) {
+        if (TextUtils.isEmpty(color)) {
+            return defaultColor;
+        }
+        color = color.trim(); //remove non visible codes
+
+        int resultColor = defaultColor;
+        Pair<Boolean, Integer> result;
+        ColorConvertHandler[] handlers = ColorConvertHandler.values();
+        for (ColorConvertHandler handler : handlers) {
+            try {
+                result = handler.handle(color);
+                if (result.first) {
+                    resultColor = result.second;
+                    break;
+                }
+            } catch (RuntimeException e) {
+            }
+        }
+        return resultColor;
+    }
+
+    /**
+     * Assembly gradients
+     * @param image gradient values contains direction、colors
+     * @param width component width
+     * @param height component height
+     * @return gradient shader
+     */
+    public static Shader getShader(String image, float width, float height) {
+        List<String> valueList = parseGradientValues(image);
+        if (valueList != null && valueList.size() == 3) {
+            float[] points = parseGradientDirection(valueList.get(0), width, height);
+            Shader shader = new LinearGradient(points[0], points[1],
+                    points[2], points[3],
+                    getColor(valueList.get(1), Color.WHITE), getColor(valueList.get(2), Color.WHITE),
+                    Shader.TileMode.REPEAT);
+            return shader;
+        }
+        return null;
+    }
+
+    /**
+     * parse gradient values contains direction、colors
+     * @param image gradient values
+     * @return split values by comma
+     */
+    @NonNull
+    private static List<String> parseGradientValues(String image) {
+        if (TextUtils.isEmpty(image)) {
+            return null;
+        }
+        image.trim();
+        if(image.startsWith("linear-gradient")){
+            String valueStr = image.substring(image.indexOf("(") + 1, image.lastIndexOf(")"));
+            StringTokenizer tokenizer = new StringTokenizer(valueStr, ",");
+            List<String> values = new ArrayList<>();
+            String temp = null;
+            while (tokenizer.hasMoreTokens()) {
+                String token = tokenizer.nextToken();
+                if (token.contains("(")) {
+                    temp = token + ",";
+                    continue;
+                }
+                if (token.contains(")")) {
+                    temp += token;
+                    values.add(temp);
+                    temp = null;
+                    continue;
+                }
+                if (temp != null) {
+                    temp += (token + ",");
+                    continue;
+                }
+                values.add(token);
+            }
+            return values;
+        }
+        return null;
+    }
+
+    /**
+     * parse gradient direction
+     * @param direction gradient direction
+     * @param width component width
+     * @param height component height
+     * @return gradient points
+     */
+    private static float[] parseGradientDirection(String direction, float width, float height) {
+        int x1 = 0, y1 = 1, x2 = 2, y2 = 3;
+        float[] points = {0, 0, 0, 0};
+
+        if (!TextUtils.isEmpty(direction)) {
+            direction = direction.replaceAll("\\s*", "").toLowerCase();
+        }
+
+        switch (direction) {
+            //to right
+            case "toright":
+                points[x2] = width;
+                break;
+            //to left
+            case "toleft":
+                points[x1] = width;
+                break;
+            //to bottom
+            case "tobottom":
+                points[y2] = height;
+                break;
+            //to top
+            case "totop":
+                points[y1] = height;
+                break;
+            //to bottom right
+            case "tobottomright":
+                points[x2] = width;
+                points[y2] = height;
+                break;
+            //to top left
+            case "totopleft":
+                points[x1] = width;
+                points[y1] = height;
+                break;
+        }
+        return points;
+    }
+
+    public static boolean isNamedColor(String name) {
+        return colorMap.containsKey(name);
+    }
+
+    enum ColorConvertHandler {
+        NAMED_COLOR_HANDLER {
+            @Override
+            @NonNull Pair<Boolean, Integer> handle(String rawColor) {
+                if (colorMap.containsKey(rawColor)) {
+                    return new Pair<>(Boolean.TRUE, colorMap.get(rawColor));
+                } else {
+                    return new Pair<>(Boolean.FALSE, Color.TRANSPARENT);
+                }
+            }
+        },
+        RGB_HANDLER {
+            @Override
+            @NonNull Pair<Boolean, Integer> handle(String rawColor) {
+                if (rawColor.length() == 4) {
+                    //#eee, #333
+                    int r, g, b;
+                    r = Integer.parseInt(rawColor.substring(1, 2), HEX);
+                    g = Integer.parseInt(rawColor.substring(2, 3), HEX);
+                    b = Integer.parseInt(rawColor.substring(3, 4), HEX);
+                    return new Pair<>(Boolean.TRUE, Color.rgb(r + (r << 4), g + (g << 4), b + (b << 4)));
+                } else if (rawColor.length() == 7 || rawColor.length() == 9) {
+                    //#eeeeee, #333333
+                    return new Pair<>(Boolean.TRUE, Color.parseColor(rawColor));
+                } else {
+                    return new Pair<>(Boolean.FALSE, Color.TRANSPARENT);
+                }
+            }
+        },
+        FUNCTIONAL_RGB_HANDLER {
+            @Override
+            @NonNull Pair<Boolean, Integer> handle(String rawColor) {
+                SingleFunctionParser<Integer> functionParser = new SingleFunctionParser<>(rawColor, FUNCTIONAL_RGB_MAPPER);
+                List<Integer> rgb = functionParser.parse(RGB);
+                if (rgb.size() == RGB_SIZE) {
+                    return new Pair<>(Boolean.TRUE, Color.rgb(rgb.get(0), rgb.get(1), rgb.get(2)));
+                } else {
+                    return new Pair<>(Boolean.FALSE, Color.TRANSPARENT);
+                }
+            }
+        },
+
+        FUNCTIONAL_RGBA_HANDLER {
+            @Override
+            @NonNull Pair<Boolean, Integer> handle(String rawColor) {
+                SingleFunctionParser<Number> functionParser = new SingleFunctionParser<>(rawColor, FUNCTIONAL_RGBA_MAPPER);
+                List<Number> rgba = functionParser.parse(RGBA);
+                if (rgba.size() == RGBA_SIZE) {
+                    return new Pair<>(Boolean.TRUE, Color.argb(
+                            parseAlpha(rgba.get(3).floatValue()),
+                            rgba.get(0).intValue(),
+                            rgba.get(1).intValue(),
+                            rgba.get(2).intValue()));
+                } else {
+                    return new Pair<>(Boolean.FALSE, Color.TRANSPARENT);
+                }
+            }
+        };
+
+        /**
+         * Parse color to #RRGGBB or #AARRGGBB. The parsing algorithm depends on sub-class.
+         *
+         * @param rawColor color, maybe functional RGB(RGBA), #RGB, keywords color or transparent
+         * @return #RRGGBB or #AARRGGBB
+         */
+        @NonNull abstract Pair<Boolean, Integer> handle(String rawColor);
+
+        /**
+         * Parse alpha gradient of color from range 0-1 to range 0-255
+         *
+         * @param alpha the alpha value, in range 0-1
+         * @return the alpha value, in range 0-255
+         */
+        private static int parseAlpha(float alpha) {
+            return (int) (alpha * COLOR_RANGE);
         }
     }
 }
