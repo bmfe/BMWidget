@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.benmu.widget.R;
+import com.benmu.widget.utils.ColorUtils;
 import com.benmu.widget.view.calendar.format.ArrayWeekDayFormatter;
 import com.benmu.widget.view.calendar.format.DateFormatTitleFormatter;
 import com.benmu.widget.view.calendar.format.DayFormatter;
@@ -255,12 +256,14 @@ public class MaterialCalendarView extends ViewGroup {
         //clear
         CustomerStyle.WEEKDAY_COLOR = null;
         CustomerStyle.WEEKEND_COLOR = null;
+        CustomerStyle.CHECKED_COLOR = null;
     }
 
     public MaterialCalendarView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+
             //If we're on good Android versions, turn off clipping for cool effects
             setClipToPadding(false);
             setClipChildren(false);
@@ -744,6 +747,12 @@ public class MaterialCalendarView extends ViewGroup {
         accentColor = color;
         adapter.setSelectionColor(color);
         invalidate();
+    }
+
+    public void setCheckColor(String color) {
+        CustomerStyle.CHECKED_COLOR = color;
+        setSelectionColor(ColorUtils.changeAlpha(ColorUtils.getColor(CustomerStyle.CHECKED_COLOR)
+                , 125));
     }
 
     /**

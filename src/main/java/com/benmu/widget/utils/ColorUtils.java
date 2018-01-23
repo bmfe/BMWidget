@@ -25,7 +25,7 @@ public class ColorUtils {
     private final static String RGB = "rgb";
     private final static String RGBA = "rgba";
     public static final char PERCENT = '%';
-    private static final int HUNDRED =100;
+    private static final int HUNDRED = 100;
 
     private final static SingleFunctionParser.FlatMapper<Integer> FUNCTIONAL_RGB_MAPPER =
             new SingleFunctionParser.FlatMapper<Integer>() {
@@ -66,15 +66,14 @@ public class ColorUtils {
         int suffix;
         if ((suffix = raw.lastIndexOf(PERCENT)) != -1) {
             return parsePercent(raw.substring(0, suffix), unit);
-        }
-        else {
+        } else {
             return Integer.parseInt(raw);
         }
     }
 
 
-    private static int parsePercent(String raw, int unit){
-        return (int)(Float.parseFloat(raw) / HUNDRED * unit);
+    private static int parsePercent(String raw, int unit) {
+        return (int) (Float.parseFloat(raw) / HUNDRED * unit);
     }
 
     static {
@@ -256,8 +255,9 @@ public class ColorUtils {
 
     /**
      * Assembly gradients
-     * @param image gradient values contains direction、colors
-     * @param width component width
+     *
+     * @param image  gradient values contains direction、colors
+     * @param width  component width
      * @param height component height
      * @return gradient shader
      */
@@ -267,7 +267,8 @@ public class ColorUtils {
             float[] points = parseGradientDirection(valueList.get(0), width, height);
             Shader shader = new LinearGradient(points[0], points[1],
                     points[2], points[3],
-                    getColor(valueList.get(1), Color.WHITE), getColor(valueList.get(2), Color.WHITE),
+                    getColor(valueList.get(1), Color.WHITE), getColor(valueList.get(2), Color
+                    .WHITE),
                     Shader.TileMode.REPEAT);
             return shader;
         }
@@ -276,6 +277,7 @@ public class ColorUtils {
 
     /**
      * parse gradient values contains direction、colors
+     *
      * @param image gradient values
      * @return split values by comma
      */
@@ -285,7 +287,7 @@ public class ColorUtils {
             return null;
         }
         image.trim();
-        if(image.startsWith("linear-gradient")){
+        if (image.startsWith("linear-gradient")) {
             String valueStr = image.substring(image.indexOf("(") + 1, image.lastIndexOf(")"));
             StringTokenizer tokenizer = new StringTokenizer(valueStr, ",");
             List<String> values = new ArrayList<>();
@@ -315,9 +317,10 @@ public class ColorUtils {
 
     /**
      * parse gradient direction
+     *
      * @param direction gradient direction
-     * @param width component width
-     * @param height component height
+     * @param width     component width
+     * @param height    component height
      * @return gradient points
      */
     private static float[] parseGradientDirection(String direction, float width, float height) {
@@ -366,7 +369,8 @@ public class ColorUtils {
     enum ColorConvertHandler {
         NAMED_COLOR_HANDLER {
             @Override
-            @NonNull Pair<Boolean, Integer> handle(String rawColor) {
+            @NonNull
+            Pair<Boolean, Integer> handle(String rawColor) {
                 if (colorMap.containsKey(rawColor)) {
                     return new Pair<>(Boolean.TRUE, colorMap.get(rawColor));
                 } else {
@@ -376,14 +380,16 @@ public class ColorUtils {
         },
         RGB_HANDLER {
             @Override
-            @NonNull Pair<Boolean, Integer> handle(String rawColor) {
+            @NonNull
+            Pair<Boolean, Integer> handle(String rawColor) {
                 if (rawColor.length() == 4) {
                     //#eee, #333
                     int r, g, b;
                     r = Integer.parseInt(rawColor.substring(1, 2), HEX);
                     g = Integer.parseInt(rawColor.substring(2, 3), HEX);
                     b = Integer.parseInt(rawColor.substring(3, 4), HEX);
-                    return new Pair<>(Boolean.TRUE, Color.rgb(r + (r << 4), g + (g << 4), b + (b << 4)));
+                    return new Pair<>(Boolean.TRUE, Color.rgb(r + (r << 4), g + (g << 4), b + (b
+                            << 4)));
                 } else if (rawColor.length() == 7 || rawColor.length() == 9) {
                     //#eeeeee, #333333
                     return new Pair<>(Boolean.TRUE, Color.parseColor(rawColor));
@@ -394,8 +400,10 @@ public class ColorUtils {
         },
         FUNCTIONAL_RGB_HANDLER {
             @Override
-            @NonNull Pair<Boolean, Integer> handle(String rawColor) {
-                SingleFunctionParser<Integer> functionParser = new SingleFunctionParser<>(rawColor, FUNCTIONAL_RGB_MAPPER);
+            @NonNull
+            Pair<Boolean, Integer> handle(String rawColor) {
+                SingleFunctionParser<Integer> functionParser = new SingleFunctionParser<>
+                        (rawColor, FUNCTIONAL_RGB_MAPPER);
                 List<Integer> rgb = functionParser.parse(RGB);
                 if (rgb.size() == RGB_SIZE) {
                     return new Pair<>(Boolean.TRUE, Color.rgb(rgb.get(0), rgb.get(1), rgb.get(2)));
@@ -407,8 +415,10 @@ public class ColorUtils {
 
         FUNCTIONAL_RGBA_HANDLER {
             @Override
-            @NonNull Pair<Boolean, Integer> handle(String rawColor) {
-                SingleFunctionParser<Number> functionParser = new SingleFunctionParser<>(rawColor, FUNCTIONAL_RGBA_MAPPER);
+            @NonNull
+            Pair<Boolean, Integer> handle(String rawColor) {
+                SingleFunctionParser<Number> functionParser = new SingleFunctionParser<>
+                        (rawColor, FUNCTIONAL_RGBA_MAPPER);
                 List<Number> rgba = functionParser.parse(RGBA);
                 if (rgba.size() == RGBA_SIZE) {
                     return new Pair<>(Boolean.TRUE, Color.argb(
@@ -428,7 +438,8 @@ public class ColorUtils {
          * @param rawColor color, maybe functional RGB(RGBA), #RGB, keywords color or transparent
          * @return #RRGGBB or #AARRGGBB
          */
-        @NonNull abstract Pair<Boolean, Integer> handle(String rawColor);
+        @NonNull
+        abstract Pair<Boolean, Integer> handle(String rawColor);
 
         /**
          * Parse alpha gradient of color from range 0-1 to range 0-255
@@ -440,4 +451,13 @@ public class ColorUtils {
             return (int) (alpha * COLOR_RANGE);
         }
     }
+
+    public static int changeAlpha(int color, int alpha) {
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+
+        return Color.argb(alpha, red, green, blue);
+    }
+
 }

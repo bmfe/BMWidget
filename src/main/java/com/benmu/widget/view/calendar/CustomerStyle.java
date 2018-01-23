@@ -7,4 +7,5 @@ package com.benmu.widget.view.calendar;
 public class CustomerStyle {
     public static String WEEKEND_COLOR;
     public static String WEEKDAY_COLOR;
+    public static String CHECKED_COLOR;
 }

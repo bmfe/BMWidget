@@ -274,8 +274,7 @@ class DayView extends CheckedTextView {
     private static Drawable generateBackground(int color, int fadeTime, Rect bounds) {
         StateListDrawable drawable = new StateListDrawable();
         drawable.setExitFadeDuration(fadeTime);
-//        drawable.addState(new int[]{R.attr.exactly_checked}, generateRectDrawable(Color
-//                .parseColor("#07ae9c")));
+        drawable.addState(new int[]{R.attr.exactly_checked}, generateRectDrawable(ColorUtils.getColor(CustomerStyle.CHECKED_COLOR)));
         drawable.addState(new int[]{android.R.attr.state_checked}, generateRectDrawable(color));
 
         //按压时的状态
