@@ -252,6 +252,9 @@ public class MaterialCalendarView extends ViewGroup {
 
     public MaterialCalendarView(Context context) {
         this(context, null);
+        //clear
+        CustomerStyle.WEEKDAY_COLOR = null;
+        CustomerStyle.WEEKEND_COLOR = null;
     }
 
     public MaterialCalendarView(Context context, AttributeSet attrs) {
@@ -437,7 +440,7 @@ public class MaterialCalendarView extends ViewGroup {
         topbar.setClipToPadding(false);
         addView(topbar, new LayoutParams(1));
         //星期布局
-        LinearLayout weekLayout = new LinearLayout(getContext());
+        weekLayout = new LinearLayout(getContext());
 
         weekLayout.setOrientation(LinearLayout.HORIZONTAL);
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams
@@ -458,6 +461,41 @@ public class MaterialCalendarView extends ViewGroup {
         pager.setOffscreenPageLimit(1);
         addView(pager, new LayoutParams(calendarMode.visibleWeeksCount + DAY_NAMES_ROW));
 
+    }
+
+    private LinearLayout weekLayout;
+
+
+    public void setWeekViewBackground(int color) {
+        if (weekLayout != null) {
+            int childCount = weekLayout.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                weekLayout.getChildAt(i).setBackgroundColor(color);
+            }
+        }
+    }
+
+
+    public void setWeekendTextColor(String color) {
+        CustomerStyle.WEEKEND_COLOR = color;
+        invalidateDecorators();
+    }
+
+    public void setWeekdayTextColor(String color) {
+        CustomerStyle.WEEKDAY_COLOR = color;
+        invalidateDecorators();
+    }
+
+    public void setWeekViewColor(int color) {
+        if (weekLayout != null) {
+            int childCount = weekLayout.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                View childAt = weekLayout.getChildAt(i);
+                if (childAt instanceof TextView) {
+                    ((TextView) childAt).setTextColor(color);
+                }
+            }
+        }
     }
 
     private void updateUi() {
@@ -845,7 +883,7 @@ public class MaterialCalendarView extends ViewGroup {
         List<CalendarDay> dates = getSelectedDates();
         adapter.clearSelections();
         for (CalendarDay day : dates) {
-            dispatchOnDateSelected(day, false,false);
+            dispatchOnDateSelected(day, false, false);
         }
     }
 
@@ -1517,7 +1555,7 @@ public class MaterialCalendarView extends ViewGroup {
                         dispatchOnRangeSelected(dates.get(0), dates.get(1), manual);
                     }
                 } else {
-                    dispatchOnDateSelected(date, nowSelected,manual);
+                    dispatchOnDateSelected(date, nowSelected, manual);
                 }
             }
             break;
@@ -1525,7 +1563,7 @@ public class MaterialCalendarView extends ViewGroup {
             case SELECTION_MODE_SINGLE: {
                 adapter.clearSelections();
                 adapter.setDateSelected(date, true);
-                dispatchOnDateSelected(date, true,manual);
+                dispatchOnDateSelected(date, true, manual);
             }
             break;
         }
@@ -1542,9 +1580,9 @@ public class MaterialCalendarView extends ViewGroup {
         if (firstDay == null || lastDay == null) {
             return;
         } else if (firstDay.isAfter(lastDay)) {
-            dispatchOnRangeSelected(lastDay, firstDay,false);
+            dispatchOnRangeSelected(lastDay, firstDay, false);
         } else {
-            dispatchOnRangeSelected(firstDay, lastDay,false);
+            dispatchOnRangeSelected(firstDay, lastDay, false);
         }
     }
 
@@ -1576,7 +1614,7 @@ public class MaterialCalendarView extends ViewGroup {
      * @param date date that should be de-selected
      */
     protected void onDateUnselected(CalendarDay date) {
-        dispatchOnDateSelected(date, false,false);
+        dispatchOnDateSelected(date, false, false);
     }
 
     /*

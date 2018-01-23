@@ -17,15 +17,24 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.CheckedTextView;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import com.benmu.widget.R;
+import com.benmu.widget.utils.ColorUtils;
 import com.benmu.widget.view.calendar.format.DayFormatter;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+
 import static com.benmu.widget.view.calendar.MaterialCalendarView.showDecoratedDisabled;
 import static com.benmu.widget.view.calendar.MaterialCalendarView.showOtherMonths;
 import static com.benmu.widget.view.calendar.MaterialCalendarView.showOutOfRange;
@@ -97,9 +106,12 @@ class DayView extends CheckedTextView {
 
     @NonNull
     public String getLabel() {
-        if(!isEnabled()){
+        if (!isEnabled()) {
             setTextColor(Color.parseColor("#b2b2b2"));
+        } else {
+            setWeekend(getDate().toString());
         }
+
         if (CalendarDay.today().equals(getDate())) {
             return "今";
         }
@@ -109,6 +121,33 @@ class DayView extends CheckedTextView {
     public void setSelectionColor(int color) {
         this.selectionColor = color;
         regenerateBackground();
+    }
+
+    private void setWeekend(String dateString) {
+        DateFormat weekFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = weekFormat.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (date != null) {
+            Calendar instance = Calendar.getInstance();
+            instance.setTime(date);
+            if (instance.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || instance.get(Calendar
+                    .DAY_OF_WEEK) == Calendar.SUNDAY) {
+                //周末
+                if (!TextUtils.isEmpty(CustomerStyle.WEEKEND_COLOR)) {
+                    setTextColor(Color.parseColor(CustomerStyle.WEEKEND_COLOR));
+                }
+
+            } else {
+                //非周末
+                if (!TextUtils.isEmpty(CustomerStyle.WEEKDAY_COLOR)) {
+                    setTextColor(Color.parseColor(CustomerStyle.WEEKDAY_COLOR));
+                }
+            }
+        }
     }
 
     /**
@@ -170,8 +209,9 @@ class DayView extends CheckedTextView {
 
     }
 
-    protected void setupSelection(@MaterialCalendarView.ShowOtherDates int showOtherDates, boolean inRange, boolean
-            inMonth) {
+    protected void setupSelection(@MaterialCalendarView.ShowOtherDates int showOtherDates,
+                                  boolean inRange, boolean
+                                          inMonth) {
         this.showOtherDates = showOtherDates;
         this.isInMonth = inMonth;
         this.isInRange = inRange;
@@ -234,8 +274,8 @@ class DayView extends CheckedTextView {
     private static Drawable generateBackground(int color, int fadeTime, Rect bounds) {
         StateListDrawable drawable = new StateListDrawable();
         drawable.setExitFadeDuration(fadeTime);
-        drawable.addState(new int[]{R.attr.exactly_checked}, generateRectDrawable(Color
-                .parseColor("#07ae9c")));
+//        drawable.addState(new int[]{R.attr.exactly_checked}, generateRectDrawable(Color
+//                .parseColor("#07ae9c")));
         drawable.addState(new int[]{android.R.attr.state_checked}, generateRectDrawable(color));
 
         //按压时的状态
