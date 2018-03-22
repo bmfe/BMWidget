@@ -29,6 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margintop_svprogresshuddefault_msg"
             android:gravity="center"
+            android:layout_gravity="center"
             android:textColor="@color/textColor_svprogresshuddefault_msg"
             android:textSize="@dimen/textSize_svprogresshuddefault_msg"
             android:visibility="gone" />
